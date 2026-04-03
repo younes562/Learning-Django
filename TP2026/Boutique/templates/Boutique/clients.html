@@ -1,0 +1,16 @@
+{% extends 'Boutique/base.html' %}
+{% block content %}
+<h2>Liste des Clients</h2>
+<table border="1">
+    <tr><th>Nom</th><th>Localité</th><th>Compte</th></tr>
+    {% for c in clients %}
+    <tr>
+        <td>{{ c.nom|upper }}</td>
+        <td>{{ c.localite|capfirst }}</td>
+        <td style="color: {% if c.compte < 0 %}red{% else %}green{% endif %};">
+            {{ c.compte }} DH
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

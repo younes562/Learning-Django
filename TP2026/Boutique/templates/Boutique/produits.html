@@ -1,0 +1,13 @@
+{% extends 'Boutique/base.html' %}
+{% block content %}
+<h2>Stock Produits</h2>
+<ul>
+    {% for p in produits %}
+    <li>
+        {{ p.libelle|capfirst }} (Réf: {{ p.npro }}) -
+        <strong>Stock : {{ p.qstock }}</strong>
+        {% if p.qstock < 100 %} <span style="color:red;"> ALERTE</span> {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

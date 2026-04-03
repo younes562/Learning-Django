@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>{% block title %}Gestion Magasin{% endblock %}</title>
+    <style>
+        nav { background: #333; padding: 10px; }
+        nav a { color: white; margin-right: 20px; text-decoration: none; }
+        footer { margin-top: 50px; border-top: 1px solid #ccc; text-align: center; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'clients' %}">Clients</a>
+        <a href="{% url 'produits' %}">Produits</a>
+        <a href="{% url 'commandes' %}">Commandes</a>
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    <footer>
+        <p>&copy; {{ "maintenant"|date:"Y" }} - TP Django : Gestion Commerciale</p>
+    </footer>
+</body>
+</html>
