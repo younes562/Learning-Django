@@ -1,0 +1,25 @@
+{% extends 'Boutique/base.html' %}
+
+{% block content %}
+<h2>Liste Simple des Détails</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>N° Commande</th>
+            <th>Réf Produit</th>
+            <th>Quantité</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in details %}
+        <tr>
+            <td>{{ d.commande_id }}</td>
+            <td>{{ d.produit_id }}</td>
+            <td>{{ d.qcom }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
