@@ -1,3 +1,35 @@
 <html>
-<a href="{% url 'details' %}">Details</a>
+<head>
+  <title>{% block title %}Gestion Magasin{% endblock %}</title>
+  <style>
+    nav { background: #333; padding: 10px; }
+    nav a { color: white; margin-right: 20px; text-decoration: none; }
+    footer { margin-top: 50px; border-top: 1px solid #ccc; text-align: center; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'clients' %}">Clients</a>
+    <a href="{% url 'produits' %}">Produits</a>
+    <a href="{% url 'commandes' %}">Commandes</a>
+    <a href="{% url 'details' %}">Détails</a>
+
+    {# —— Menu selon l'état de connexion —— #}
+    {% if request.user.is_authenticated %}
+        {# L'utilisateur est connecté : on affiche son nom et le lien Déconnexion #}
+        <span style='color: #aaffaa;'> 👤 {{ request.user.username }}</span>
+        <a href="{% url 'deconnexion' %}"> 🔓 Déconnexion</a>
+    {% else %}
+        {# L'utilisateur n'est pas connecté : on affiche Login et Register #}
+        <a href="{% url 'connexion' %}"> 🔑 Connexion</a>
+        <a href="{% url 'register' %}"> 📝 Inscription</a>
+    {% endif %}
+</nav>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+  <footer>
+    <p>&copy; {{ "maintenant"|date:"Y" }} - TP Django : Gestion Commerciale</p>
+  </footer>
+</body>
 </html>

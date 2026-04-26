@@ -11,6 +11,7 @@ class Client(models.Model):
     def __str__(self):
         return f"{self.nom} ({self.ncli})"
 
+
 class Produit(models.Model):
     npro = models.CharField(max_length=10, primary_key=True)
     libelle = models.CharField(max_length=100)
@@ -20,19 +21,26 @@ class Produit(models.Model):
     def __str__(self):
         return f"{self.libelle} ({self.npro})"
 
+
 class Commande(models.Model):
     ncom = models.IntegerField(primary_key=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     datecom = models.DateField()
 
+    def total_articles(self):
+        return sum(ligne.qcom for ligne in self.lignes.all())
+
     def __str__(self):
         return f"Commande n°{self.ncom}"
 
-class Detail(models.Model):
-    commande = models.ForeignKey(Commande, on_delete=models.CASCADE,
-    related_name='lignes')
-    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
 
+class Detail(models.Model):
+    commande = models.ForeignKey(
+        Commande,
+        on_delete=models.CASCADE,
+        related_name='lignes'
+    )
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
     qcom = models.IntegerField()
 
     def __str__(self):

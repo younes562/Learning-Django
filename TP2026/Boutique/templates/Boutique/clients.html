@@ -1,16 +1,56 @@
 {% extends 'Boutique/base.html' %}
 {% block content %}
+
 <h2>Liste des Clients</h2>
-<table border="1">
-    <tr><th>Nom</th><th>Localité</th><th>Compte</th></tr>
-    {% for c in clients %}
-    <tr>
-        <td>{{ c.nom|upper }}</td>
-        <td>{{ c.localite|capfirst }}</td>
-        <td style="color: {% if c.compte < 0 %}red{% else %}green{% endif %};">
-            {{ c.compte }} DH
-        </td>
-    </tr>
-    {% endfor %}
+
+<a href="{% url 'ajouter_client' %}" style="background: green; color: white; padding: 10px; text-decoration: none;">
+    + Ajouter Client
+</a>
+
+<br><br>
+
+<table border="1" width="100%">
+  <tr>
+    <th>Nom</th>
+    <th>Localité</th>
+    <th>Compte</th>
+    <th>Actions</th>
+  </tr>
+
+  {% for c in clients %}
+  <tr>
+
+    <!-- Nom + lien vers commandes -->
+    <td>
+      <a href="{% url 'client_commandes' c.ncli %}">
+        {{ c.nom|upper }}
+      </a>
+    </td>
+
+    <!-- Localité -->
+    <td>{{ c.localite|capfirst }}</td>
+
+    <!-- Compte avec couleur -->
+    <td style="color: {% if c.compte < 0 %}red{% else %}green{% endif %};">
+      {{ c.compte }} DH
+    </td>
+
+    <!-- Actions -->
+    <td>
+      <button onclick="alert('Contacter le client : {{ c.nom|upper }}')">
+        Contacter
+      </button>
+      |
+      <a href="{% url 'modifier_client' c.ncli %}">✏️ Modifier</a>
+      |
+      <a href="{% url 'supprimer_client' c.ncli %}" style="color: red;">
+        🗑️ Supprimer
+      </a>
+    </td>
+
+  </tr>
+  {% endfor %}
+
 </table>
+
 {% endblock %}

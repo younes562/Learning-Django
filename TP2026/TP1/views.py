@@ -8,3 +8,10 @@ def home(request):
 def about(request):
     # Cette vue renvoie du texte brut
     return HttpResponse("A propos de nous")
+def catalogue(request):
+    return render(request, "SUB/catalogue.html")
+def catalogue(request):
+    context = {
+        'nom_magasin': 'TechShop'
+    }
+    return render(request, "SUB/catalogue.html", context)
