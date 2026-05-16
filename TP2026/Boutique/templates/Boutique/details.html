@@ -1,43 +1,41 @@
+{%extends 'Boutique/base.html'%}
+{%block content%}
+<h2>Liste Simple des details</h2>
 
-{% extends 'Boutique/base.html' %}
+{% if perms.Boutique.add_detail %}
+<a href="{% url 'ajouter_detail' %}" style="background:green;color:white;padding:10px;text-decoration:none;">+ Ajouter Detail</a><br><br>
+{% endif %}
 
-{% block content %}
-
-<h2>Liste Simple des Détails</h2>
-
-<table border="1" width="100%">
-
-  <thead>
+<table border="1">
+   <thead>
     <tr>
-      <th>Commande</th>
-      <th>Produit</th>
-      <th>Quantité</th>
-      <th>Client / Localité</th>
+        <th>N commande</th>
+        <th>ref produit</th>
+        <th>Quantite</th>
+        <th>client</th>
+        <th>Actions</th>
     </tr>
-  </thead>
-
-  <tbody>
-    {% for d in details %}
+   </thead>
+   <tbody>
+    {%for d in details%}
     <tr>
-      <td>
-        Commande n°{{ d.commande.ncom }} du {{ d.commande.datecom|date:"d/m/Y" }}
-      </td>
-
-      <td>
-        {{ d.produit.libelle }}
-      </td>
-
-      <td style="text-align: center;">
-        {{ d.qcom }}
-      </td>
-
-      <td>
-        Client de : {{ d.commande.client.localite }}
-      </td>
+        <td>commande n{{d.commande.ncom}} du {{d.commande.datecom|date:"d/m/Y"}}</td>
+        <td>{{d.produit.libelle}}</td>
+        <td style="text-align: center;">{{d.qcom}}</td>
+        <td>Client de : {{d.commande.client.localite}}</td>
+        <td>
+            {%if perms.Boutique.change_detail%}
+           <a href="{% url 'modifier_detail' d.commande.ncom d.produit.npro %}">modifier</a>
+           {%endif%}
+           {%if perms.Boutique.delete_client%}
+           <a href="{% url 'supprimer_detail' d.commande.ncom d.produit.npro %}">supprimer</a>
+           {%endif%}
+           <span>PRO : </span>
+           <a href="{% url 'update' 2 d.commande_id d.produit_id %}">modifier</a>
+           <a href="{% url 'delete' 2 d.commande_id d.produit_id  %}" style="color:red;">supprimer</a>
+        </td>
     </tr>
-    {% endfor %}
-  </tbody>
-
+    {%endfor%}
+   </tbody>
 </table>
-
-{% endblock %}
+{%endblock%}

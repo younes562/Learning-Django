@@ -1,38 +1,26 @@
-# from django.contrib import admin
-# from .models import Client, Produit, Commande, Detail
-
-# class DetailInline(admin.TabularInline):
-#     model = Detail
-#     extra = 1
-
-# class CommandeAdmin(admin.ModelAdmin):
-#     list_display = ('ncom', 'client', 'datecom')
-#     inlines = [DetailInline]
-
-# admin.site.register(Client)
-# admin.site.register(Produit)
-# admin.site.register(Detail)        # ← vérifiez que cette ligne existe
-# # admin.site.register(Commande)    # ← commentée
-# admin.site.register(Commande, CommandeAdmin)  # ← version PRO
-
-
-
-
 from django.contrib import admin
-from .models import Client, Produit, Commande, Detail
+from .models import Client,Produit,Commande,Detail
 
-# PRO : Création d'une interface de saisie "en ligne" pour les détails
+
+admin.site.register(Client)
+admin.site.register(Produit)
+admin.site.register(Commande)
+admin.site.register(Detail)
+
+
+#pro:creatin d'un interface de saise "en ligne" pour les details
 class DetailInline(admin.TabularInline):
-    model = Detail
-    extra = 1  # Nombre de lignes vides affichées par défaut
+    model=Detail
+    extra=1
 
-class CommandeAdmin(admin.ModelAdmin):
-    list_display = ('ncom', 'client', 'datecom')
-    # PRO : On intègre la saisie des détails directement dans la commande
-    inlines = [DetailInline]
-    admin.site.register(Client)
-    admin.site.register(Produit)
-    admin.site.register(Detail)
+class commandeAdmin(admin.ModelAdmin):
+    list_display=('ncom','client','datecom')
+    inlines=[DetailInline]
 
-# مهم: غير هادي تبقى
-admin.site.register(Commande, CommandeAdmin)
+
+
+
+
+
+
+

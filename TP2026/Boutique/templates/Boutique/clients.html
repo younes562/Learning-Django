@@ -1,56 +1,39 @@
-{% extends 'Boutique/base.html' %}
+{%extends 'Boutique/base.html'%}
 {% block content %}
+<h2>List des Clients</h2>
 
-<h2>Liste des Clients</h2>
+{% if perms.Boutique.add_client%}
+  <a href="{% url 'ajouter_client' %}"
+     style="background:green;color:white;padding:10px;text-decoration:none;">
+     ajouter client
+</a><br><br>
+{%endif%}
+<table border="1">
+    <tr><th>Nom</th><th>Localite</th><th>Compte</th><th>Actions</th></tr>
+    {% for c in clients%}
+    <tr>
+        <td>
+            <a href="{% url 'client_commandes' c.ncli %}">{{c.nom|upper}}</a>
+        </td>
+        <td>{{c.localite|capfirst}}</td>
+        <td style="color:{%if c.compte < 0 %} red {%else%} green {%endif%}">{{c.compte}}DH</td>
+        <td>
+            {%if perms.Boutique.change_client%}
+                <a href="{% url 'modifier_client' c.ncli %}">modifier</a>
+            {%endif%}
 
-<a href="{% url 'ajouter_client' %}" style="background: green; color: white; padding: 10px; text-decoration: none;">
-    + Ajouter Client
-</a>
+            {%if perms.Boutique.delete_client%}
+                <a href="{% url 'supprimer_client' c.ncli %}" style="collor:red;">supprimer</a>
+            {%endif%}
 
-<br><br>
-
-<table border="1" width="100%">
-  <tr>
-    <th>Nom</th>
-    <th>Localité</th>
-    <th>Compte</th>
-    <th>Actions</th>
-  </tr>
-
-  {% for c in clients %}
-  <tr>
-
-    <!-- Nom + lien vers commandes -->
-    <td>
-      <a href="{% url 'client_commandes' c.ncli %}">
-        {{ c.nom|upper }}
-      </a>
-    </td>
-
-    <!-- Localité -->
-    <td>{{ c.localite|capfirst }}</td>
-
-    <!-- Compte avec couleur -->
-    <td style="color: {% if c.compte < 0 %}red{% else %}green{% endif %};">
-      {{ c.compte }} DH
-    </td>
-
-    <!-- Actions -->
-    <td>
-      <button onclick="alert('Contacter le client : {{ c.nom|upper }}')">
-        Contacter
-      </button>
-      |
-      <a href="{% url 'modifier_client' c.ncli %}">✏️ Modifier</a>
-      |
-      <a href="{% url 'supprimer_client' c.ncli %}" style="color: red;">
-        🗑️ Supprimer
-      </a>
-    </td>
-
-  </tr>
-  {% endfor %}
-
+            {%if not perms.Boutique.add_client and not perms.Boutique.delete_client%}
+                <span style='color:grey'> Lecture seule </span>
+            {% endif %}
+           <span>PRO : </span>
+            <a href="{% url 'update' 0 c.ncli 0 %}">modifier</a>
+            <a href="{% url 'delete' 0 c.ncli 0 %}" style="color:red;">supprimer</a> 
+        </td>
+    </tr>
+    {% endfor %}
 </table>
-
 {% endblock %}

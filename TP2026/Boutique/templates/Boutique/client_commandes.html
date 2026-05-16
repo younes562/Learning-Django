@@ -1,0 +1,21 @@
+{%extends 'Boutique/base.html'%}
+{% block content %}
+<h1>Historique de : {{client.nom|upper}}</h1>
+<p>Localite :{{client.localite}} | Solde:{{client.compte}} DH</p>
+<hr>
+{%for com in commandes%}
+<div style="background:#f9f9f9;padding:10px;margin-bottom:10px;border-left:5px solide blue;">
+    <h4>Commande r*{{com.ncom}}-Date:{{com.datecom|date:"d/m/Y"}}</h4>
+    <ul>
+        {%for ligne in com.lignes.all%}
+        <li>{{ligne.produit.libelle}}{x{{ligne.qcom}}}</li>
+        {%endfor%}
+    </ul>
+</div>
+{%empty%}
+<p>Ce client n'a pas encore passe de commande</p>
+{%endfor%}
+
+<a href="{% url 'clients' %}"><--Retour a la liste des clients</a>
+
+{% endblock %}

@@ -1,27 +1,32 @@
-{% extends 'Boutique/base.html' %}
-{% block content %}
-<h2>Historique des Commandes</h2>
-{% for com in commandes %}
-  <!-- <p>
-    Commande n°{{ com.ncom }} -
-    Client : {{ com.ncli }} -
-    Mois : {{ com.datecom|date:"F" }}
-  </p> -->
+{%extends 'Boutique/base.html'%}
+{%block content%}
+<h2>historique des commandes</h2>
 
-  <div style="border: 1px solid #333; margin-bottom: 20px; padding: 10px;">
-  <h3>Commande n°{{ com.ncom }} - Client : {{ com.client.nom }}</h3>
+{% if perms.Boutique.add_commande %}
+<a href="{% url 'ajouter_commande' %}" style="background:green;color:white;padding:10px;text-decoration:none;">+ Ajouter Commande</a><br><br>
+{% endif %}
 
-  <p>Articles dans cette commande :</p>
-  <ul>
-    {% for ligne in com.lignes.all %}
-      <li>{{ ligne.produit.libelle }} (Qté : {{ ligne.qcom }})</li>
-    {% empty %}
-      <li>Aucun article enregistré.</li>
-    {% endfor %}
-  </ul>
-  
+{%for com in commandes%}
+<div style="border:1px solid #333;margin-bottom:20px; padding:10px;">
+
+    <h3>Commande n{{com.ncom}}-Client:{{com.client.nom}}</h3> 
+            {% if perms.Boutique.change_commande %}
+            <a href="{% url 'modifier_commande' com.ncom %}">modifier</a>
+            {%endif%}
+            {% if perms.Boutique.delete_client %}
+            <a href="{% url 'supprimer_commande' com.ncom %}" style="color:red;">supprimer</a>
+            {%endif%}
+            <span>PRO : </span>
+            <a href="{% url 'update' 1 com.ncom 0 %}">modifier</a>
+            <a href="{% url 'delete' 1 com.ncom 0 %}" style="color:red;">supprimer</a> 
+    <p>Aticles dans cette commande :</p>
+    <ul>
+        {%for ligne in com.lignes.all%}
+        <li>{{ligne.produit.libelle}}(Qte:{{ligne.com}})</li>
+        {%empty%}
+        <li>Aucun article enregistre</li>
+        {%endfor%}
+    </ul>
 </div>
-{% empty %}
-  <p>Aucune commande.</p>
-{% endfor %}
-{% endblock %}
+{%endfor%}
+{%endblock%}

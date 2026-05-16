@@ -1,12 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from . import views
 
-urlpatterns = [
-
-    path('home/', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('admin/', admin.site.urls),
-    path('boutique/', include('Boutique.urls')),  # ← Boutique pas TP1
-    
+urlpatterns=[
+    path('home/',views.home,name="home"),
+    path('about/',views.about,name="about"),
+    path('catalogue/',views.catalogue,name="catalogue")
 ]
